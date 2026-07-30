@@ -5,20 +5,16 @@
 /* api */
 const { DOMPurify } = globalThis;
 
-if (DOMPurify && typeof DOMPurify.addHook === 'function') {
-  DOMPurify.addHook('uponSanitizeAttribute', (node, data) => {
-    if (data.attrName === 'target') {
-      data.keepAttr = true;
-      data.forceKeepAttr = true;
-    }
-  });
+DOMPurify.addHook('uponSanitizeAttribute', (node, data) => {
+  if (data.attrName === 'target') {
+    data.keepAttr = true;
+    data.forceKeepAttr = true;
+  }
+});
 
-  DOMPurify.addHook('afterSanitizeAttributes', node => {
-    node.removeAttribute('title');
-  });
-} else {
-  throw new Error('DOMPurify is not available for sanitize-attr.js');
-}
+DOMPurify.addHook('afterSanitizeAttributes', node => {
+  node.removeAttribute('title');
+});
 
 /**
  * sanitize attributes
