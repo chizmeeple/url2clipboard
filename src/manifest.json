@@ -1,6 +1,9 @@
 {
   "action": {
-    "default_icon": "img/icon.svg#current",
+    "default_icon": {
+      "16": "img/icon-color-16.png",
+      "32": "img/icon-color-32.png"
+    },
     "default_popup": "html/popup.html",
     "default_title": "__MSG_extensionName__"
   },
@@ -76,9 +79,9 @@
   "description": "__MSG_extensionDescription__",
   "homepage_url": "https://github.com/asamuzaK/url2clipboard",
   "icons": {
-    "16": "img/icon.svg#current",
-    "32": "img/icon.svg#current",
-    "64": "img/icon.svg"
+    "16": "img/icon-color-16.png",
+    "32": "img/icon-color-32.png",
+    "64": "img/icon.png"
   },
   "manifest_version": 3,
   "name": "__MSG_extensionName__",
