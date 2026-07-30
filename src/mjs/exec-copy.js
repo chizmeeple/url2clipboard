@@ -13,12 +13,12 @@ import { MIME_HTML, MIME_PLAIN } from './constant.js';
  * @returns {Promise.<void>} - void
  */
 export const execCopy = async (opt = {}) => {
-  const { formatTitle, mimeType, notify, text } = opt;
+  const { formatTitle, mimeType, notify, text, url } = opt;
   if (typeof navigator.clipboard !== 'undefined' &&
       (mimeType === MIME_HTML || mimeType === MIME_PLAIN)) {
     await new Clip(text, mimeType).copy();
     if (notify) {
-      await notifyOnCopy(formatTitle);
+      await notifyOnCopy(formatTitle, url);
     }
   }
 };

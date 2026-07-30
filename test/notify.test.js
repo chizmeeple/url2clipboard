@@ -62,6 +62,43 @@ describe('notify', () => {
       assert.strictEqual(res, true, 'result');
     });
 
+    it('should call function with url', async () => {
+      browser.runtime.getURL.withArgs('img/icon.png').returns('img/icon.png');
+      browser.i18n.getMessage.withArgs('notifyOnCopyMsg').returns('Copied');
+      browser.i18n.getMessage.withArgs('extensionName').returns('bar');
+      browser.notifications.create.resolves(true);
+      const res = await func(null, 'https://example.com/');
+      const [id, opt] = browser.notifications.create.args[0];
+      assert.match(id, notifyId, 'id');
+      assert.deepEqual(opt, {
+        contextMessage: 'Copied',
+        iconUrl: 'img/icon.png',
+        message: 'https://example.com/',
+        title: 'bar',
+        type: 'basic'
+      }, 'opt');
+      assert.strictEqual(res, true, 'result');
+    });
+
+    it('should call function with format and url', async () => {
+      browser.runtime.getURL.withArgs('img/icon.png').returns('img/icon.png');
+      browser.i18n.getMessage.withArgs('notifyOnCopyMsg_format', 'Markdown')
+        .returns('Copied as Markdown');
+      browser.i18n.getMessage.withArgs('extensionName').returns('bar');
+      browser.notifications.create.resolves(true);
+      const res = await func('Markdown', 'https://example.com/');
+      const [id, opt] = browser.notifications.create.args[0];
+      assert.match(id, notifyId, 'id');
+      assert.deepEqual(opt, {
+        contextMessage: 'Copied as Markdown',
+        iconUrl: 'img/icon.png',
+        message: 'https://example.com/',
+        title: 'bar',
+        type: 'basic'
+      }, 'opt');
+      assert.strictEqual(res, true, 'result');
+    });
+
     it('should call function', async () => {
       const { window } = createJsdom();
       global.window = window;

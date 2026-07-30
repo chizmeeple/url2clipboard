@@ -325,6 +325,7 @@ export const extractClickedData = async (info, tab) => {
         }
       }
       let text;
+      let url;
       if (menuItemId.startsWith(COPY_TABS_ALL)) {
         const allTabs = await getAllTabsInfo(menuItemId);
         const arr = [];
@@ -364,13 +365,14 @@ export const extractClickedData = async (info, tab) => {
       } else if (menuItemId.startsWith(COPY_TAB)) {
         const template = getFormatTemplate(formatId);
         const content = tabTitle;
+        url = tabUrl;
         text = await createLinkText({
           attr,
           content,
           formatId,
           template,
           title: tabTitle,
-          url: tabUrl
+          url
         });
       } else {
         const template = getFormatTemplate(formatId);
@@ -394,7 +396,6 @@ export const extractClickedData = async (info, tab) => {
         }
         let content;
         let title;
-        let url;
         if (menuItemId.startsWith(COPY_PAGE)) {
           if (selectionText &&
               ((formatId === HTML_HYPER &&
@@ -487,6 +488,7 @@ export const extractClickedData = async (info, tab) => {
           formatTitle,
           mimeType,
           text,
+          url,
           notify: userOpts.get(NOTIFY_COPY)
         });
       }
@@ -585,7 +587,12 @@ export const handleMsg = async msg => {
         }
         case NOTIFY_COPY: {
           if (userOpts.get(NOTIFY_COPY) && value) {
-            func.push(notifyOnCopy(isString(value) ? value : null));
+            if (isObjectNotEmpty(value)) {
+              const { formatTitle, url } = value;
+              func.push(notifyOnCopy(formatTitle, url));
+            } else {
+              func.push(notifyOnCopy(isString(value) ? value : null));
+            }
           }
           break;
         }
