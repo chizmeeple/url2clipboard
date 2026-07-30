@@ -22,13 +22,16 @@ const { runtime } = browser;
  * @returns {?Promise} - sendMessage()
  */
 export const execCopy = async (opt = {}) => {
-  const { formatTitle, mimeType, notify, text } = opt;
+  const { formatTitle, mimeType, notify, text, url } = opt;
   let func;
   if (mimeType === MIME_HTML || mimeType === MIME_PLAIN) {
     await new Clip(text, mimeType).copy();
     if (notify) {
       func = runtime.sendMessage({
-        [NOTIFY_COPY]: formatTitle
+        [NOTIFY_COPY]: {
+          formatTitle,
+          url
+        }
       });
     }
   }

@@ -113,13 +113,20 @@ describe('offscreen-main', () => {
         formatTitle: 'Text & URL',
         mimeType: MIME_PLAIN,
         notify: true,
-        text: 'foo https://example.com'
+        text: 'foo https://example.com',
+        url: 'https://example.com'
       };
       await func(opt);
       assert.strictEqual(navigator.clipboard.writeText.callCount, i + 1,
         'called');
       assert.strictEqual(browser.runtime.sendMessage.callCount, j + 1,
         'called');
+      assert.deepEqual(browser.runtime.sendMessage.args[j], [{
+        notifyOnCopy: {
+          formatTitle: 'Text & URL',
+          url: 'https://example.com'
+        }
+      }], 'message');
     });
   });
 
