@@ -90,7 +90,7 @@
   "permissions": [
     "activeTab",
     "clipboardWrite",
-    "menus",
+    "contextMenus",
     "scripting",
     "storage",
     "tabs"
