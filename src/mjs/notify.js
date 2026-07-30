@@ -27,5 +27,5 @@ export const notifyOnCopy = label => {
     title: i18n.getMessage(EXT_NAME),
     type: 'basic'
   };
-  return createNotification(NOTIFY_COPY, msg);
+  return createNotification(`${NOTIFY_COPY}-${Date.now()}`, msg);
 };
